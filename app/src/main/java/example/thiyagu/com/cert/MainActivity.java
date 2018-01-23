@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         if(validateAppSignature())
         {
-            Toast.makeText(getApplicationContext(), "Securtiy Verified Success for Testing", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Securtiy Verified Success for Testing ", Toast.LENGTH_LONG).show();
 
         }
         else

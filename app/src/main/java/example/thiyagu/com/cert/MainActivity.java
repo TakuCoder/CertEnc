@@ -8,21 +8,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
-
-import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import javax.crypto.Cipher;
-import javax.crypto.spec.SecretKeySpec;
 
 public class MainActivity extends AppCompatActivity {
-    //private static String CERTIFICATE_SHA1 = "3EE6FFA63A13FDDDEC12AA51DE2C5567768615E3";
+
    static String currentSignature;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,18 +24,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         if(validateAppSignature())
         {
-            Toast.makeText(getApplicationContext(), "security pass ok", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Securtiy Verified", Toast.LENGTH_LONG).show();
 
         }
         else
         {
 
-            Toast.makeText(getApplicationContext(), "security violation", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Security Violation APK Tampered", Toast.LENGTH_LONG).show();
 
         }
-
-
-
     }
     public boolean validateAppSignature()
     {
@@ -70,21 +61,12 @@ public class MainActivity extends AppCompatActivity {
                     byteStream = new ByteArrayOutputStream();
                     byteStream.write(buffer);
                     byteStream.close();
-
-
                     Log.d("mytag", byteStream.toString());
-
-
-
-
-
-
                     String encrypted =  byteStream.toString();
                     AesEnc aesenc = new AesEnc();
                     String decryptedText = aesenc.decrypt(encrypted,key.getBytes());
                     System.out.println("decrypted TExt  "+decryptedText);
                     Log.d("mytag",decryptedText);
-
                     iStream.close();
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -121,13 +103,6 @@ public class MainActivity extends AppCompatActivity {
         return new String(hexChars);
     }
 
-    private static byte[] decrypt(byte[] raw, byte[] encrypted) throws Exception
-    {
-        SecretKeySpec skeySpec = new SecretKeySpec(raw, "AES");
-        Cipher cipher = Cipher.getInstance("AES");
-        cipher.init(Cipher.DECRYPT_MODE, skeySpec);
-        byte[] decrypted = cipher.doFinal(encrypted);
-        return decrypted;
-    }
+
 
 }

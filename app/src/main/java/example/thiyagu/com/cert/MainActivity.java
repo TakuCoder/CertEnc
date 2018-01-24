@@ -1,5 +1,6 @@
 package example.thiyagu.com.cert;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -7,6 +8,7 @@ import android.content.pm.Signature;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -18,6 +20,8 @@ import java.security.NoSuchAlgorithmException;
 public class MainActivity extends AppCompatActivity {
 
    static String currentSignature;
+   static String decryptedText;
+    private static Sample[] mSamples;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,7 +29,19 @@ public class MainActivity extends AppCompatActivity {
         if(validateAppSignature())
         {
             Toast.makeText(getApplicationContext(), "Securtiy Verified Success for Testing ", Toast.LENGTH_LONG).show();
+            // Instantiate the list of samples.
+            mSamples = new Sample[]{
+                    new Sample(R.string.title_crossfade, CrossfadeActivity.class),
+                    new Sample(R.string.title_card_flip, CardFlipActivity.class),
+                    new Sample(R.string.title_screen_slide, ScreenSlideActivity.class),
+                    new Sample(R.string.title_zoom, ZoomActivity.class),
+                    new Sample(R.string.title_layout_changes, LayoutChangesActivity.class),
+            };
 
+            setListAdapter(new ArrayAdapter<Sample>(this,
+                    android.R.layout.simple_list_item_1,
+                    android.R.id.text1,
+                    mSamples));
         }
         else
         {
@@ -34,6 +50,10 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
+
+    private void setListAdapter(ArrayAdapter<Sample> sampleArrayAdapter) {
+    }
+
     public boolean validateAppSignature()
     {
         Context context = getApplicationContext();
@@ -103,6 +123,20 @@ public class MainActivity extends AppCompatActivity {
         return new String(hexChars);
     }
 
+    private class Sample {
+        private CharSequence title;
+        private Class<? extends Activity> activityClass;
 
+        public Sample(int titleResId, Class<? extends Activity> activityClass) {
+            this.activityClass = activityClass;
+            this.title = getResources().getString(titleResId);
+        }
+
+        @Override
+        public String toString() {
+            return title.toString();
+        }
+    }
 
 }
+

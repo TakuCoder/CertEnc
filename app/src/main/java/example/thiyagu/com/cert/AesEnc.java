@@ -7,6 +7,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class AesEnc {
 
+    //private static String algorithm = "AES";
     private static String algorithm = "AES";
     private static byte[] decode(String textString) {
         byte[] byteArray = new byte[(textString.length() / 2)];

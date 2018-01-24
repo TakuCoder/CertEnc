@@ -1,6 +1,6 @@
 package example.thiyagu.com.cert;
 
-import android.app.Activity;
+
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -8,7 +8,7 @@ import android.content.pm.Signature;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.Toast;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -20,18 +20,18 @@ import java.security.NoSuchAlgorithmException;
 public class MainActivity extends AppCompatActivity {
 
    static String currentSignature;
-   static String decryptedText;
-    private static Sample[] mSamples;
+static ImageView imageView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        imageView = (ImageView)findViewById(R.id.imageView);
+        //AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         if(validateAppSignature())
         {
             Toast.makeText(getApplicationContext(), "Securtiy Verified Success for Testing ", Toast.LENGTH_LONG).show();
-            // Instantiate the list of samples.
-
-
+            //imageView.setImageResource(R.drawable.ic_left_arrow_blue);
         }
         else
         {
@@ -41,8 +41,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void setListAdapter(ArrayAdapter<Sample> sampleArrayAdapter) {
-    }
 
     public boolean validateAppSignature()
     {
@@ -113,20 +111,6 @@ public class MainActivity extends AppCompatActivity {
         return new String(hexChars);
     }
 
-    private class Sample {
-        private CharSequence title;
-        private Class<? extends Activity> activityClass;
-
-        public Sample(int titleResId, Class<? extends Activity> activityClass) {
-            this.activityClass = activityClass;
-            this.title = getResources().getString(titleResId);
-        }
-
-        @Override
-        public String toString() {
-            return title.toString();
-        }
-    }
 
 }
 

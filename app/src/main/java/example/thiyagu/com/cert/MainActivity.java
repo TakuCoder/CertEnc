@@ -58,6 +58,7 @@ static ImageView imageView;
 
                 currentSignature = calcSHA1(signatureBytes);
                 String key = currentSignature.substring(0,16);
+
                 System.out.println(key);
                 InputStream iStream = context.getResources().openRawResource(R.raw.text);
                 ByteArrayOutputStream byteStream = null;
@@ -74,16 +75,18 @@ static ImageView imageView;
                     AesEnc aesenc = new AesEnc();
                     String decryptedText = aesenc.decrypt(encrypted,key.getBytes());
                     System.out.println("decrypted TExt  "+decryptedText);
+                    Toast.makeText(getApplicationContext(),decryptedText,Toast.LENGTH_LONG).show();
                     Log.d("mytag",decryptedText);
                     iStream.close();
+                    return true;
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Log.v("mytag",e.toString());
                 }
 
 
             }
         } catch (Exception e) {
-            Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
+            Log.v("mytag",e.toString());
         }
         return false;
     }
